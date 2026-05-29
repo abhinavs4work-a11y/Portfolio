@@ -24,7 +24,7 @@ export default function ScrollyCanvas({ progress }: { progress: MotionValue<numb
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
       const frameNum = i.toString().padStart(3, "0");
-      img.src = `/sequence/frame_${frameNum}_delay-0.033s.png`;
+      img.src = `/sequence/frame_${frameNum}_delay-0.033s.webp`;
       img.onload = () => {
         loaded[i] = true;
         // Draw the very first frame as soon as it arrives so the background
