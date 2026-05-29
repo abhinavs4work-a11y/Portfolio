@@ -1,11 +1,10 @@
 "use client";
 
-import { motion, useScroll, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function NavBar() {
-  const { scrollY } = useScroll();
   const [hasScrolledPast, setHasScrolledPast] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
