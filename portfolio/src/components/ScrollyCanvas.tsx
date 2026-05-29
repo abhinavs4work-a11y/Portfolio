@@ -1,37 +1,73 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useTransform, useMotionValueEvent, MotionValue } from "framer-motion";
 
 const FRAME_COUNT = 150;
 
 export default function ScrollyCanvas({ progress }: { progress: MotionValue<number> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  // Hold images and their loaded state in refs so the scroll handler always
+  // sees the latest set without waiting for a re-render.
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const loadedRef = useRef<boolean[]>([]);
 
   // Transform scroll progress (0 to 1) into a frame index (0 to 149)
   const frameIndex = useTransform(progress, [0, 1], [0, FRAME_COUNT - 1]);
 
   useEffect(() => {
-    // Preload all images
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
+    const images: HTMLImageElement[] = new Array(FRAME_COUNT);
+    const loaded: boolean[] = new Array(FRAME_COUNT).fill(false);
+    imagesRef.current = images;
+    loadedRef.current = loaded;
 
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
       const frameNum = i.toString().padStart(3, "0");
       img.src = `/sequence/frame_${frameNum}_delay-0.033s.png`;
       img.onload = () => {
-        loadedCount++;
-        if (loadedCount === FRAME_COUNT) {
-          setImages(loadedImages);
-          // Draw the first frame once all are loaded
-          drawFrame(loadedImages[0]);
+        loaded[i] = true;
+        // Draw the very first frame as soon as it arrives so the background
+        // appears immediately instead of waiting for all 150 to download.
+        if (i === 0) {
+          drawFrame(img);
+        } else if (i === Math.round(frameIndex.get())) {
+          // If the user has already scrolled to this frame, draw it now.
+          drawFrame(img);
         }
       };
-      loadedImages.push(img);
+      // A single failed frame must not block the rest of the animation.
+      img.onerror = () => {
+        loaded[i] = false;
+      };
+      images[i] = img;
     }
   }, []);
+
+  // Draw the nearest loaded frame to the requested index. Falls back to a
+  // neighbouring frame that has finished loading so the canvas is never blank.
+  const drawNearestLoadedFrame = (index: number) => {
+    const images = imagesRef.current;
+    const loaded = loadedRef.current;
+    if (!images.length) return;
+
+    if (loaded[index]) {
+      drawFrame(images[index]);
+      return;
+    }
+    for (let offset = 1; offset < FRAME_COUNT; offset++) {
+      const before = index - offset;
+      const after = index + offset;
+      if (before >= 0 && loaded[before]) {
+        drawFrame(images[before]);
+        return;
+      }
+      if (after < FRAME_COUNT && loaded[after]) {
+        drawFrame(images[after]);
+        return;
+      }
+    }
+  };
 
   const drawFrame = (img: HTMLImageElement) => {
     if (!canvasRef.current || !img) return;
@@ -67,23 +103,17 @@ export default function ScrollyCanvas({ progress }: { progress: MotionValue<numb
   };
 
   useMotionValueEvent(frameIndex, "change", (latest) => {
-    if (images.length === FRAME_COUNT) {
-      const currentFrame = Math.round(latest);
-      drawFrame(images[currentFrame]);
-    }
+    drawNearestLoadedFrame(Math.round(latest));
   });
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
-      if (images.length === FRAME_COUNT) {
-        const currentFrame = Math.round(frameIndex.get());
-        drawFrame(images[currentFrame]);
-      }
+      drawNearestLoadedFrame(Math.round(frameIndex.get()));
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [images, frameIndex]);
+  }, [frameIndex]);
 
   return (
     <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#121212] flex items-center justify-center">
