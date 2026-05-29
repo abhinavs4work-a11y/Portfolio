@@ -52,7 +52,7 @@ export default function Projects() {
 
   return (
     <section className="min-h-screen bg-[#121212] py-24 px-8 md:px-24">
-      <div id="projects" className="max-w-7xl mx-auto border-t border-white/10 pt-16">
+      <div id="projects" className="scroll-mt-24 max-w-7xl mx-auto border-t border-white/10 pt-16">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-16">Projects</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -87,7 +87,7 @@ export default function Projects() {
         </div>
 
         {/* Experience Section */}
-        <div id="experience" className="mt-32 border-t border-white/10 pt-16">
+        <div id="experience" className="scroll-mt-24 mt-32 border-t border-white/10 pt-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-16">Experience</h2>
           
           <div className="relative pl-8 md:pl-0">
@@ -176,7 +176,7 @@ export default function Projects() {
         <div className="mt-32 border-t border-white/10 pt-16 grid grid-cols-1 md:grid-cols-2 gap-16">
           
           {/* Education & Certs */}
-          <div id="education">
+          <div id="education" className="scroll-mt-24">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-12">Education</h2>
             <div className="space-y-8 mb-16">
               <div className="relative p-6 rounded-2xl bg-white/[0.03] border border-white/10">
@@ -193,7 +193,7 @@ export default function Projects() {
 
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Certifications</h2>
             <ul className="space-y-3">
-              <li className="flex items-center text-gray-300"><span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span> SEO Training (Udemy)</li>
+              <li className="flex items-center text-gray-300"><span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span> SEO Advanced (Udemy)</li>
               <li className="flex items-center text-gray-300"><span className="w-2 h-2 bg-purple-500 rounded-full mr-3"></span> Google Ads (Coursera)</li>
               <li className="flex items-center text-gray-300"><span className="w-2 h-2 bg-pink-500 rounded-full mr-3"></span> Marketing Analytics (Udemy)</li>
               <li className="flex items-center text-gray-300"><span className="w-2 h-2 bg-amber-500 rounded-full mr-3"></span> Power BI Desktop (Coursera)</li>
@@ -201,7 +201,7 @@ export default function Projects() {
           </div>
 
           {/* Skills */}
-          <div id="skills">
+          <div id="skills" className="scroll-mt-24">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-12">Skills</h2>
             <div className="space-y-8">
               <div className="relative p-8 rounded-2xl bg-white/[0.03] border border-white/10">
@@ -225,7 +225,16 @@ export default function Projects() {
               <div className="relative p-8 rounded-2xl bg-white/[0.03] border border-white/10">
                 <h4 className="text-xl font-semibold text-white mb-4 border-b border-white/10 pb-2">Analytics & Tools</h4>
                 <div className="flex flex-wrap gap-2 block">
-                  {["Google Analytics (GA4)", "SEO & Demand Analysis", "Power BI", "Advanced Excel"].map(s => (
+                  {["Google Analytics (GA4)", "SEO & Demand Analysis", "Power BI", "Advanced Excel", "Automation (n8n)", "Claude Code"].map(s => (
+                    <span key={s} className="px-3 py-1 rounded-full text-sm font-medium text-gray-300 bg-white/5 border border-white/10">{s}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative p-8 rounded-2xl bg-white/[0.03] border border-white/10">
+                <h4 className="text-xl font-semibold text-white mb-4 border-b border-white/10 pb-2">Outreach & CRM</h4>
+                <div className="flex flex-wrap gap-2 block">
+                  {["Apollo.io", "Hunter", "Lemlist", "Instantly", "Linked Helper", "Waalaxy", "Hubspot", "Pipedrive"].map(s => (
                     <span key={s} className="px-3 py-1 rounded-full text-sm font-medium text-gray-300 bg-white/5 border border-white/10">{s}</span>
                   ))}
                 </div>

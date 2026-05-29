@@ -40,7 +40,6 @@ export default function NavBar() {
     { name: "Experience", href: "#experience" },
     { name: "Education", href: "#education" },
     { name: "Skills", href: "#skills" },
-    { name: "AI Ads", href: "#", disabled: true },
   ];
 
   return (
@@ -66,14 +65,7 @@ export default function NavBar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  link.disabled
-                    ? "text-gray-600 cursor-not-allowed"
-                    : "text-gray-300 hover:text-white"
-                }`}
-                onClick={(e) => {
-                  if (link.disabled) e.preventDefault();
-                }}
+                className="text-sm font-medium transition-colors text-gray-300 hover:text-white"
               >
                 {link.name}
               </Link>
@@ -131,18 +123,8 @@ export default function NavBar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-2xl font-medium transition-colors ${
-                      link.disabled
-                        ? "text-gray-600 cursor-not-allowed"
-                        : "text-gray-300 hover:text-white"
-                    }`}
-                    onClick={(e) => {
-                      if (link.disabled) {
-                        e.preventDefault();
-                      } else {
-                        setIsMobileMenuOpen(false);
-                      }
-                    }}
+                    className="text-2xl font-medium transition-colors text-gray-300 hover:text-white"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.name}
                   </Link>
