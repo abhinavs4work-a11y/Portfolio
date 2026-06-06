@@ -7,8 +7,16 @@ import ScrollToTop from "@/components/ScrollToTop";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.workwithabhinav.in"),
   title: "Abhinav Srivastava | Product Marketing & GTM",
   description: "Portfolio of Abhinav Srivastava - Product Marketing | GTM | SEO",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
