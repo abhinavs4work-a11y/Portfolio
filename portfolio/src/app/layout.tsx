@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -27,6 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className={`${inter.className} antialiased selection:bg-emerald-400/30 selection:text-emerald-200`}>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-NL6317F2PB" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NL6317F2PB');`}
+        </Script>
         <NavBar />
         {children}
         <ScrollToTop />
